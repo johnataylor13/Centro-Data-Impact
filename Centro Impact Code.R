@@ -142,6 +142,8 @@ impact_impressions1$standardized_depth <- as.numeric(cut2(impact_impresions1$dep
 impact_impressions1$placement_spend_USD <- impact_impressions1$'Placement Rate'/1000000000000
 
 
+
+#This is the part that will eventually just be done in Tableau.  For now though, this is how we are experimenting with the calculation
 #Creating a summary table for Placement ID
 impact_placementID <- impact_impressions1 %>%
   group_by('Placement ID') %>% #make this dynamic
