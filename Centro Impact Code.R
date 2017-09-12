@@ -6,7 +6,7 @@ library(SparkR)
 library(dplyr)
 
 #######Combining Centro Data for Impression level########
-#reading in the individual datasets - this needs to be done from the Spark style of dataframe
+#reading in the individual datasets - this needs to be done from the Spark style of dataframe - need to reference the dates correctly according to Spark R
 activity <- SparkR::collect(read.df(sqlContext, "s3://gpg-data-primary/dma/centro_dcm/",source = "com.databricks.spark.csv", header="true", inferSchema = "true"))
 impression <- SparkR::collect(read.df(sqlContext, "s3://gpg-data-primary/dma/centro_dcm/",source = "com.databricks.spark.csv", header="true", inferSchema = "true"))
 click <- SparkR::collect(read.df(sqlContext, "s3://gpg-data-primary/dma/centro_dcm/",source = "com.databricks.spark.csv", header="true", inferSchema = "true"))
@@ -37,7 +37,7 @@ impact_impressions$Date.Time <- as.POSIXct(impact_impressions$Date.Time, origin=
 impact_impressions$depth <- NULL
 impact_impressions <- impact_impressions[order(desc(impact_impressions$Event.Time)),] #This ordering is done for when we calculate depth
 
-#Tying impact_impressions to all match tables
+#Tying impact_impressions to all match tables #straight sql to do the join
 #Tying impression to click
 impact_impressions$click - ifelse(impact_impressions$"Impression ID" %in% click$"Impression ID", 1, 0)
 #Tying impression to match_table_ads
